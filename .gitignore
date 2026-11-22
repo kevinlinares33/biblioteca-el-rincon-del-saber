@@ -1,0 +1,12 @@
+# Compilados e IDE
+target/
+.idea/
+*.iml
+*.log
+
+# Archivos personales que no van al repositorio
+LEEME.txt
+Documentacion_Biblioteca.docx
+Guia_Sustentacion_*.docx
+*.url
+~$*
