@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El Rincón del Saber - Registro</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="fondo">
+<form class="caja" th:action="@{/registro}" method="post">
+    <h1>Crear cuenta</h1>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+    <input type="text" name="nombre" placeholder="Nombre completo" required>
+    <input type="text" name="usuario" placeholder="Usuario (4 a 20 letras o números)" required
+           pattern="[a-zA-Z0-9_]{4,20}" title="De 4 a 20 letras o números, sin espacios">
+    <input type="password" name="clave" placeholder="Contraseña" required minlength="6"
+           pattern="(?=.*[A-Za-z])(?=.*\d).{6,}" title="Mínimo 6 caracteres, con letras y números">
+    <small>Mínimo 6 caracteres, con letras y números.</small>
+    <button type="submit">Registrarme</button>
+    <a th:href="@{/login}">Volver al login</a>
+</form>
+</body>
+</html>
