@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El Rincón del Saber - Préstamos</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+<header>
+    <b>📚 El Rincón del Saber</b>
+    <span class="menu">
+        <a class="opcion" th:href="@{/libros}">📖 Libros</a>
+        <a class="opcion activa" th:href="@{/prestamos}">🔄 Préstamos</a>
+        <span>Hola, <b th:text="${session.usuario.nombre}">usuario</b> | <a th:href="@{/salir}">Salir</a></span>
+    </span>
+</header>
+
+<main>
+    <!-- Formulario: prestar un libro -->
+    <form class="formulario" th:action="@{/prestamos/guardar}" method="post">
+        <h2>Prestar libro</h2>
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+        <select name="libroId" required>
+            <option value="">Seleccione un libro...</option>
+            <option th:each="l : ${libros}" th:value="${l.id}" th:disabled="${l.cantidad <= 0}"
+                    th:selected="${libroElegido != null and libroElegido == l.id}"
+                    th:text="${l.titulo} + ' (disponibles: ' + ${l.cantidad} + ')'"></option>
+        </select>
+        <input type="text" name="persona" placeholder="Nombre de quien lo lleva" required
+               th:autofocus="${libroElegido != null}">
+        <button type="submit">Prestar</button>
+    </form>
+
+    <p class="resumen">Libros prestados sin devolver: <b th:text="${pendientes}">0</b></p>
+
+    <!-- Tabla: préstamos guardados en la BD -->
+    <table>
+        <tr><th>ID</th><th>Libro</th><th>Persona</th><th>Fecha préstamo</th><th>Fecha devolución</th><th>Estado</th></tr>
+        <tr th:each="p : ${prestamos}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.libro.titulo}"></td>
+            <td th:text="${p.persona}"></td>
+            <td th:text="${#temporals.format(p.fechaPrestamo, 'dd/MM/yyyy')}"></td>
+            <td th:text="${p.fechaDevolucion != null} ? ${#temporals.format(p.fechaDevolucion, 'dd/MM/yyyy')} : '-'"></td>
+            <td>
+                <span th:if="${p.devuelto}" class="devuelto">Devuelto</span>
+                <a th:unless="${p.devuelto}" class="btn editar" th:href="@{/prestamos/devolver/{id}(id=${p.id})}">Devolver</a>
+            </td>
+        </tr>
+        <tr th:if="${prestamos.isEmpty()}"><td colspan="6">No hay préstamos registrados.</td></tr>
+    </table>
+</main>
+</body>
+</html>

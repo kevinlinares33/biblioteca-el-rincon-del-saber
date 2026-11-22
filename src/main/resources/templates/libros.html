@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El Rincón del Saber - Libros</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+<header>
+    <b>📚 El Rincón del Saber</b>
+    <span class="menu">
+        <a class="opcion activa" th:href="@{/libros}">📖 Libros</a>
+        <a class="opcion" th:href="@{/prestamos}">🔄 Préstamos</a>
+        <span>Hola, <b th:text="${session.usuario.nombre}">usuario</b> | <a th:href="@{/salir}">Salir</a></span>
+    </span>
+</header>
+
+<main>
+    <p class="error" th:if="${param.noEliminar}">No se puede eliminar: ese libro tiene préstamos registrados.</p>
+    <!-- Formulario: sirve para agregar y para editar -->
+    <form class="formulario" th:action="@{/libros/guardar}" th:object="${libro}" method="post">
+        <h2 th:text="${libro.id == null} ? 'Agregar libro' : 'Editar libro'"></h2>
+        <input type="hidden" th:field="*{id}">
+        <input type="text"   th:field="*{titulo}"   placeholder="Título" required>
+        <input type="text"   th:field="*{autor}"    placeholder="Autor" required>
+        <input type="number" th:field="*{anio}"     placeholder="Año">
+        <input type="number" th:field="*{cantidad}" placeholder="Cantidad" min="0" required>
+        <button type="submit">Guardar</button>
+        <a th:if="${libro.id != null}" th:href="@{/libros}">Cancelar</a>
+    </form>
+
+    <!-- Buscador: filtra por título o autor -->
+    <form class="buscador" th:action="@{/libros}" method="get">
+        <input type="text" name="buscar" th:value="${buscar}" placeholder="Buscar por título o autor...">
+        <button type="submit">Buscar</button>
+        <a th:if="${buscar != null and !buscar.isBlank()}" th:href="@{/libros}">Ver todos</a>
+    </form>
+
+    <p class="resumen">
+        <span th:if="${buscar != null and !buscar.isBlank()}">
+            Resultados para "<b th:text="${buscar}"></b>":
+        </span>
+        <b th:text="${libros.size()}">0</b> libro(s) encontrados,
+        <b th:text="${ejemplares}">0</b> ejemplar(es) en total.
+    </p>
+
+    <!-- Tabla: muestra los libros guardados en la BD -->
+    <table>
+        <tr><th>ID</th><th>Título</th><th>Autor</th><th>Año</th><th>Cantidad</th><th>Acciones</th></tr>
+        <tr th:each="l : ${libros}">
+            <td th:text="${l.id}"></td>
+            <td th:text="${l.titulo}"></td>
+            <td th:text="${l.autor}"></td>
+            <td th:text="${l.anio}"></td>
+            <td th:text="${l.cantidad}"></td>
+            <td>
+                <a class="btn prestar" th:if="${l.cantidad > 0}" th:href="@{/prestamos(libroId=${l.id})}">Prestar</a>
+                <a class="btn editar" th:href="@{/libros/editar/{id}(id=${l.id})}">Editar</a>
+                <a class="btn eliminar" th:href="@{/libros/eliminar/{id}(id=${l.id})}"
+                   onclick="return confirm('¿Eliminar este libro?')">Eliminar</a>
+            </td>
+        </tr>
+        <tr th:if="${libros.isEmpty()}"><td colspan="6">No se encontraron libros.</td></tr>
+    </table>
+</main>
+</body>
+</html>
