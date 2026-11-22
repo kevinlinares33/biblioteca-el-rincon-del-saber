@@ -1,0 +1,50 @@
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+body { margin: 0; background: #f2f4f7; }
+
+/* Login y registro */
+.fondo { min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         background: linear-gradient(135deg, #2c3e50, #3498db); }
+.caja { background: #fff; padding: 30px; border-radius: 10px; width: 320px;
+        display: flex; flex-direction: column; gap: 12px; text-align: center; }
+
+/* Encabezado */
+header { background: #2c3e50; color: #fff; padding: 14px 24px;
+         display: flex; justify-content: space-between; }
+header a { color: #fff; }
+
+main { max-width: 950px; margin: 20px auto; padding: 0 12px; }
+
+/* Formulario */
+.formulario { background: #fff; padding: 16px; border-radius: 10px; margin-bottom: 20px;
+              display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.formulario h2 { width: 100%; margin: 0; }
+input { padding: 9px; border: 1px solid #ccc; border-radius: 6px; flex: 1; min-width: 140px; }
+button { padding: 9px 18px; border: none; border-radius: 6px; background: #3498db;
+         color: #fff; cursor: pointer; }
+
+/* Tabla */
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+th { background: #dfe6ee; }
+.btn { padding: 5px 10px; border-radius: 5px; color: #fff; text-decoration: none; font-size: 13px; }
+.editar { background: #f39c12; }
+.eliminar { background: #e74c3c; }
+
+.error { color: #c0392b; margin: 0; }
+.ok { color: #27ae60; margin: 0; }
+
+/* Buscador */
+.buscador { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+.resumen { margin: 0 0 10px; color: #333; }
+
+/* Préstamos */
+select { padding: 9px; border: 1px solid #ccc; border-radius: 6px; flex: 2; min-width: 200px; }
+.devuelto { color: #27ae60; font-weight: bold; }
+
+/* Menú de arriba con botones grandes */
+.menu { display: flex; gap: 10px; align-items: center; }
+.menu a.opcion { background: #3498db; color: #fff; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+.menu a.opcion.activa { background: #f39c12; }
+.prestar { background: #27ae60; }
+.sub { margin: -6px 0 6px; color: #666; }
+.caja small { color: #666; }
